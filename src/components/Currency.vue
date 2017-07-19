@@ -59,12 +59,19 @@
         currency.rate = this.beforeEditCache
       },
       doneEdit (currency) {
-        // TODO Send the currency to backend
         if (!this.editCurrency) {
           return
         }
         this.editCurrency = null
         currency.rate = currency.rate.trim()
+
+        var data = new URLSearchParams()
+        data.append('rate', currency.rate)
+        axios.put('http://price-updater.zone/currency/update/' + currency.id, data)
+          .then(response => {})
+          .catch(e => {
+            console.log(e)
+          })
       }
     },
     // a custom directive to wait for the DOM to be updated
