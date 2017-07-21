@@ -4,6 +4,7 @@
             <div class="container-fluid">
                 <ul class="nav navbar-nav">
                     <li><router-link to="/">Home</router-link></li>
+                    <li><router-link to="/product">Product</router-link></li>
                     <li><router-link to="/currency">Currency</router-link></li>
                 </ul>
             </div>
