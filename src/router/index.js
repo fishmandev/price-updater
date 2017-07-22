@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Index from '@/components/Index'
 import Currency from '@/components/Currency'
 import Product from '@/components/Product'
+import Sync from '@/components/Sync'
 
 Vue.use(Router)
 
@@ -23,6 +24,11 @@ export default new Router({
       path: '/product',
       name: 'Product',
       component: Product
+    },
+    {
+      path: '/sync',
+      name: 'Sync',
+      component: Sync
     }
   ]
 })

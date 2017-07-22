@@ -6,6 +6,7 @@
                     <li><router-link to="/">Home</router-link></li>
                     <li><router-link to="/product">Product</router-link></li>
                     <li><router-link to="/currency">Currency</router-link></li>
+                    <li><router-link to="/sync">Sync</router-link></li>
                 </ul>
             </div>
         </nav>
