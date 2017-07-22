@@ -1,7 +1,7 @@
 <template>
     <div class="currency">
         <div class="container">
-            <table class="table table-hover table-condensed">
+            <table class="table table-hover table-condensed table-currency">
                 <thead>
                     <tr>
                         <th class="col-sm-1">#</th>
@@ -88,7 +88,7 @@
 </script>
 
 <style>
-    .table {
+    .table-currency {
         width: 600px;
     }
 
