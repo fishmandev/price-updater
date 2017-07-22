@@ -7,13 +7,24 @@
                     <th class="col-sm-1">#</th>
                     <th class="col-sm-2">Название</th>
                     <th class="col-sm-4">Цена</th>
+                    <th class="col-sm-4">Валюта</th>
+                    <th class="col-sm-4">Курс</th>
                 </tr>
                 </thead>
                 <tbody v-if="items && items.length">
                 <tr v-for="product of items">
                     <th>{{ product.id }}</th>
                     <td>{{ product.name }}</td>
-                    <td>{{ product.price }}</td>
+                    <td v-if="product.price">{{ product.price }}</td>
+                    <td v-else>N/A</td>
+                    <template v-if="product.currency">
+                        <td>{{ product.currency.symbol }}</td>
+                        <td>{{ product.currency.rate }}</td>
+                    </template>
+                    <template v-else>
+                        <td>N/A</td>
+                        <td>N/A</td>
+                    </template>
                 </tr>
                 </tbody>
             </table>
