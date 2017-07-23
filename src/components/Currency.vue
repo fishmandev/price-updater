@@ -41,7 +41,7 @@
       }
     },
     created () {
-      axios.get('http://price-updater.zone/currency/list')
+      axios.get(process.env.BACKEND_URL + '/currency/list')
         .then(response => {
           this.currencies = response.data.currencies
         })
