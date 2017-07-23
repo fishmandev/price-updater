@@ -13,11 +13,24 @@
                 </thead>
                 <tbody v-if="items && items.length">
                 <tr v-for="product of items"
-                    :class="{ 'editing-currency': product == editProduct, warning: !product.currency }">
+                    :class="{ 'editing-currency': product == editProduct, warning: !product.currency || !product.price, 'editing-price': product == editProductPrice }">
                     <th>{{ product.id }}</th>
                     <td>{{ product.name }}</td>
-                    <td v-if="product.price">{{ product.price }}</td>
-                    <td v-else>N/A</td>
+                    <td class="price-label"
+                        v-if="product.price"
+                        @dblclick="editPrice(product)">{{ product.price }}
+                    </td>
+                    <td class="price-label"
+                        v-else
+                        @dblclick="editPrice(product)">N/A</td>
+                    <td class="edit-price">
+                        <input type="text" class="price-input"
+                               v-model="product.price"
+                               v-focus="product == editProductPrice"
+                               @keyup.esc="cancelPriceEdit(product)"
+                               @blur="donePriceEdit(product)"
+                               @keyup.enter="donePriceEdit(product)">
+                    </td>
                     <template v-if="product.currency">
                         <td>{{ product.currency.symbol }}</td>
                         <td>{{ product.currency.rate }}</td>
@@ -29,7 +42,7 @@
                         <td class="edit-currency">
                             <select v-model="selectedCurrency"
                                     class="form-control currency-list"
-                                    v-currency-focus="product == editProduct"
+                                    v-focus="product == editProduct"
                                     @blur="doneEditCurrency(product)"
                                     @keyup.esc="cancelEditCurrency(product)">
                                 <option v-for="currency in currencies" :value="currency">
@@ -63,7 +76,8 @@
           current_page: 1,
           last_page: 0
         },
-        editProduct: null
+        editProduct: null,
+        editProductPrice: null
       }
     },
     created () {
@@ -99,10 +113,40 @@
         }
         this.editProduct = null
         product.currency = this.selectedCurrency
+        this.saveProduct(product.id, {
+          currency_id: this.selectedCurrency.id
+        })
+      },
+      editPrice (product) {
+        this.beforeEditCache = product.price
+        this.editProductPrice = product
+      },
+      cancelPriceEdit (product) {
+        this.editProductPrice = null
+        product.price = this.beforeEditCache
+      },
+      donePriceEdit (product) {
+        if (!this.editProductPrice) {
+          return
+        }
+        this.editProductPrice = null
+        if (product.price) {
+          product.price = product.price.trim()
+          if (this.beforeEditCache !== product.price) {
+            this.saveProduct(product.id, {
+              price: product.price
+            })
+          }
+        }
+      },
+      saveProduct (productId, productData) {
         var data = new URLSearchParams()
-        data.append('currency_id', this.selectedCurrency.id)
-        axios.put('http://price-updater.zone/product/update/' + product.id, data)
-          .then(response => {})
+        for (var key in productData) {
+          data.append(key, productData[key])
+        }
+        axios.put('http://price-updater.zone/product/update/' + productId, data)
+          .then(response => {
+          })
           .catch(e => {
             console.log(e)
           })
@@ -112,7 +156,7 @@
       pagination
     },
     directives: {
-      'currency-focus': function (el, binding) {
+      'focus': function (el, binding) {
         if (binding.value) {
           el.focus()
         }
@@ -128,16 +172,19 @@
         width: 100px;
     }
 
-    .edit-currency {
+    .edit-currency,
+    .edit-price,
+    .editing-currency .currency-label,
+    .editing-price .price-label {
         display: none;
     }
 
-    .editing-currency .edit-currency {
+    .editing-currency .edit-currency,
+    .editing-price .edit-price {
         display: block;
     }
 
-    .editing-currency .currency-label {
-        display: none;
+    .price-input {
+        border: 0;
     }
-
 </style>
