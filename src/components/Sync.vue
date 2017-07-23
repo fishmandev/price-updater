@@ -47,7 +47,7 @@
     },
     methods: {
       syncImport () {
-        axios.get('http://price-updater.zone/sync/import')
+        axios.get(process.env.BACKEND_URL + '/sync/import')
           .then(response => {
             if (response.data.status === 0) {
               this.infoMsg = 'Total imported: ' + response.data.total
@@ -60,7 +60,7 @@
           })
       },
       syncExport () {
-        axios.get('http://price-updater.zone/sync/export')
+        axios.get(process.env.BACKEND_URL + '/sync/export')
           .then(response => {
             if (response.data.status === 0) {
               this.infoMsg = 'Updated successfully'

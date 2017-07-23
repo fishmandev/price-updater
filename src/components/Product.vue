@@ -82,7 +82,7 @@
     },
     created () {
       this.loadData()
-      axios.get('http://price-updater.zone/currency/list')
+      axios.get(process.env.BACKEND_URL + '/currency/list')
         .then(response => {
           this.currencies = response.data.currencies
         })
@@ -92,7 +92,7 @@
     },
     methods: {
       loadData () {
-        axios.get('http://price-updater.zone/products/' + this.pagination.current_page)
+        axios.get(process.env.BACKEND_URL + '/products/' + this.pagination.current_page)
           .then(response => {
             this.pagination = response.data.pagination
             this.items = response.data.items
@@ -144,7 +144,7 @@
         for (var key in productData) {
           data.append(key, productData[key])
         }
-        axios.put('http://price-updater.zone/product/update/' + productId, data)
+        axios.put(process.env.BACKEND_URL + '/product/update/' + productId, data)
           .then(response => {
           })
           .catch(e => {

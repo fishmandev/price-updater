@@ -67,7 +67,7 @@
 
         var data = new URLSearchParams()
         data.append('rate', currency.rate)
-        axios.put('http://price-updater.zone/currency/update/' + currency.id, data)
+        axios.put(process.env.BACKEND_URL + '/currency/update/' + currency.id, data)
           .then(response => {})
           .catch(e => {
             console.log(e)
