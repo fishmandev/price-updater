@@ -80,7 +80,7 @@
   }
 </script>
 
-<style>
+<style scoped>
     .info, .danger {
         display: none;
     }

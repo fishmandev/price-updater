@@ -165,7 +165,7 @@
   }
 </script>
 
-<style>
+<style scoped>
     .currency-list {
         padding: 0px;
         height: 20px;

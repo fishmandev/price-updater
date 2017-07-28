@@ -87,7 +87,7 @@
   }
 </script>
 
-<style>
+<style scoped>
     .table-currency {
         width: 600px;
     }
